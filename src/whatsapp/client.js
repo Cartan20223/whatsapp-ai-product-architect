@@ -4,6 +4,7 @@ const { Client, LocalAuth } = require("whatsapp-web.js")
 const qrcode = require("qrcode-terminal")
 import { analyzeMessage } from "../ai/analyzer.js"
 import { generateReply } from "../ai/generator.js"
+import { transcribeAudio } from "../ai/stt.js"
 import { RateLimiter } from "../utils/rateLimiter.js"
 
 const TECHNICAL_KEYWORDS = [
@@ -107,7 +108,20 @@ export function createClient() {
       const chat = await msg.getChat()
       if (!chat.isGroup) return
 
-      const text = msg.body
+      let text = msg.body
+
+      if (msg.hasMedia && msg.mimetype && msg.mimetype.startsWith("audio/")) {
+        const media = await msg.downloadMedia()
+        if (media) {
+          const transcribed = await transcribeAudio(media.data, media.mimetype)
+          if (transcribed) {
+            console.log(`[TRANSCRIPCION] ${transcribed}`)
+            text = transcribed
+            msg.body = transcribed
+          }
+        }
+      }
+
       console.log(`[MENSAJE] ${text}`)
 
       await updateMemory(msg)
