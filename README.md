@@ -31,3 +31,34 @@ atlas-whatsapp-bot/
 │       └── rateLimiter.js# Anti-spam temporal middleware (15-second intervals)
 ├── .env                  # Secure environment variable vault
 └── package.json          # Dependency Manifest
+🛠️ Installation & Setup
+Prerequisites
+Node.js (v18.0.0 or higher configured for ES Modules).
+
+FFmpeg installed on your local host system variable path (required for processing inbound media types/audio streams).
+
+1. Clone the Repository
+Bash
+git clone [https://github.com/Cartan20223/whatsapp-ai-product-architect.git](https://github.com/Cartan20223/whatsapp-ai-product-architect.git)
+cd whatsapp-ai-product-architect
+2. Install Dependencies
+Bash
+npm install
+3. Environment Configuration
+Create a .env file in the root directory and populate it with your credentials:
+
+Ini, TOML
+# Groq Cloud API Engine Access Token
+GROQ_API_KEY=your_groq_api_key_here
+
+# System Instructions defining agent behavior, constraints, and architecture rules
+SYSTEM_PROMPT="your_custom_behavior_prompt_here"
+💻 Usage
+Running Locally
+To launch the script and initialize the browser emulator, run:
+
+Bash
+npm start
+Upon execution, a QR Code will render directly inside your terminal interface. Scan this code using your WhatsApp application (Linked Devices > Link a Device) to establish a persistent web session.
+
+📦 Note on Persistence: Thanks to the LocalAuth integration, your authentication session tokens will save inside the .wwebjs_auth/ directory. You will only need to scan the QR code once per runtime profile.
